@@ -23,6 +23,6 @@
     "symfony/yaml": "~2.7"
   },
   "suggest": {
-    "symfony/yaml": "For yaml configuration."
+    "symfony/yaml": "For using the YAML loader"
   }
 }
