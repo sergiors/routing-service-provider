@@ -3,6 +3,7 @@ namespace Inbep\Silex\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Routing\RouteCollection;
@@ -17,22 +18,18 @@ class RoutingServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        if (!isset($app['file_locator'])) {
-            throw new \LogicException('You must register the ConfigServiceProvider to use the RoutingFilterServiceProvider');
-        }
-
         $app['routing.resource'] = null;
 
         $app['routing.loader.xml'] = $app->share(function (Application $app) {
-            return new XmlFileLoader($app['file_locator']);
+            return new XmlFileLoader(new FileLocator());
         });
 
         $app['routing.loader.php'] = $app->share(function (Application $app) {
-            return new PhpFileLoader($app['file_locator']);
+            return new PhpFileLoader(new FileLocator());
         });
 
         $app['routing.loader.yml'] = $app->share(function (Application $app) {
-            return new YamlFileLoader($app['file_locator']);
+            return new YamlFileLoader(new FileLocator());
         });
 
         $app['routing.resolver'] = $app->share(function (Application $app) {
