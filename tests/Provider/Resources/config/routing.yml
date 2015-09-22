@@ -1,0 +1,10 @@
+Test:
+  resource: './test.yml'
+  prefix: /elearning
+  type: yaml
+
+Test2:
+  resource: './test2.yml'
+  prefix: /
+  type: yaml
+

@@ -18,7 +18,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['routing.resource'] = null;
+        $app['routing.resources'] = [];
 
         $app['routing.loader.xml'] = $app->share(function (Application $app) {
             return new XmlFileLoader(new FileLocator());
@@ -52,8 +52,11 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
         $app['routes'] = $app->share(
             $app->extend('routes', function (RouteCollection $routes) use ($app) {
-                $collection = $app['routing.loader']->load($app['routing.resource']);
-                $routes->addCollection($collection);
+                $resources = (array) $app['routing.resources'];
+                foreach ($resources as $resource) {
+                    $collection = $app['routing.loader']->load($resource);
+                    $routes->addCollection($collection);
+                }
                 return $routes;
             })
         );

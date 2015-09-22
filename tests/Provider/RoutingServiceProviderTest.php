@@ -13,7 +13,13 @@ class RoutingServiceProviderTest extends WebTestCase
     public function register()
     {
         $app = $this->createApplication();
-        $app->register(new RoutingServiceProvider());
+        $app->register(new RoutingServiceProvider(), [
+            'routing.resources' => [
+                __DIR__.'/Resources/config/routing.yml'
+            ]
+        ]);
+
+        $this->assertEquals(3, $app['routes']->count());
     }
 
     public function createApplication()
