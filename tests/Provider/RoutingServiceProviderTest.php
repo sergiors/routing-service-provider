@@ -14,8 +14,8 @@ class RoutingServiceProviderTest extends WebTestCase
     {
         $app = $this->createApplication();
         $app->register(new RoutingServiceProvider(), [
-            'routing.resources' => [
-                __DIR__.'/Resources/config/routing.yml'
+            'router' => [
+                'resource' => __DIR__.'/Resources/config/routing.yml'
             ]
         ]);
 
