@@ -20,15 +20,15 @@ class RoutingServiceProvider implements ServiceProviderInterface
     {
         $app['routing.resources'] = [];
 
-        $app['routing.loader.xml'] = $app->share(function (Application $app) {
+        $app['routing.loader.xml'] = $app->share(function () {
             return new XmlFileLoader(new FileLocator());
         });
 
-        $app['routing.loader.php'] = $app->share(function (Application $app) {
+        $app['routing.loader.php'] = $app->share(function () {
             return new PhpFileLoader(new FileLocator());
         });
 
-        $app['routing.loader.yml'] = $app->share(function (Application $app) {
+        $app['routing.loader.yml'] = $app->share(function () {
             return new YamlFileLoader(new FileLocator());
         });
 
@@ -44,7 +44,6 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
             return new LoaderResolver($loaders);
         });
-
 
         $app['routing.loader'] = $app->share(function (Application $app) {
             return new DelegatingLoader($app['routing.resolver']);
