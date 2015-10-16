@@ -1,6 +1,6 @@
 RoutingServiceProvider
 ----------------------
-Import your routes from YAML, PHP files or Directory.
+Import your routes from yaml, php files or directory.
 
 Install
 -------
@@ -27,7 +27,7 @@ $app->register(new RoutingServiceProvider(), [
 ]);
 ```
 
-To user `%root_dir%` in your YAML files, yo need yo install `inbep/config-service-provider`.
+To user `%root_dir%` in your yaml files, you need to install `inbep/config-service-provider`.
 
 License
 -------
