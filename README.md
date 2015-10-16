@@ -1,6 +1,6 @@
 RoutingServiceProvider
 ----------------------
-Importing your routes from YAML, PHP files or Directory.
+Import your routes from YAML, PHP files or Directory.
 
 Install
 -------
