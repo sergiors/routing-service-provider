@@ -35,7 +35,9 @@ class YamlFileLoader extends BaseYamlFileLoader
             throw new \InvalidArgumentException(sprintf('The file "%s" does not contain valid YAML.', $path), 0, $e);
         }
 
-        $parsedConfig = $this->container['config.parameters']->resolveValue($parsedConfig);
+        if (isset($this->container['config.parameters'])) {
+            $parsedConfig = $this->container['config.parameters']->resolveValue($parsedConfig);
+        }
 
         $collection = new RouteCollection();
         $collection->addResource(new FileResource($path));

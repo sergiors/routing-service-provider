@@ -11,11 +11,11 @@ composer require inbep/routing-service-provider
 How to user
 -----------
 
+Your yaml file
 ```yaml
-inex_controller:
+index_controller:
     prefix: /
-    resource: Acme\Acme\Controller\IndexController
-    type: yaml
+    defaults: {_controller: 'Acme\Acme\Controller\IndexController::indexAction'}
 ```
 
 In your php file
