@@ -16,13 +16,14 @@
     "silex/silex": "~1.3",
     "symfony/config": "~2.7",
     "symfony/routing": "~2.7",
-    "inbep/config-service-provider": "~1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.8",
-    "symfony/yaml": "~2.7"
+    "symfony/yaml": "~2.7",
+    "inbep/config-service-provider": "~1.1"
   },
   "suggest": {
-    "symfony/yaml": "For using the YAML loader"
+    "symfony/yaml": "For using the YAML loader",
+    "inbep/config-service-provider": "For using placeholder in YAML files"
   }
 }
