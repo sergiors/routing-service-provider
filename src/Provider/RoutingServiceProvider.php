@@ -9,8 +9,8 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
-use Symfony\Component\Routing\Loader\YamlFileLoader;
-use Inbep\Silex\Loader\DirectoryLoader;
+use Inbep\Silex\Routing\Loader\YamlFileLoader;
+use Inbep\Silex\Routing\Loader\DirectoryLoader;
 
 /**
  * @author Sérgio Rafael Siqueira <sergio@inbep.com.br>
@@ -31,8 +31,8 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new PhpFileLoader(new FileLocator());
         });
 
-        $app['routing.loader.yml'] = $app->share(function () {
-            return new YamlFileLoader(new FileLocator());
+        $app['routing.loader.yml'] = $app->share(function (Application $app) {
+            return new YamlFileLoader($app, new FileLocator());
         });
 
         $app['routing.loader.directory.class'] = 'Symfony\Component\Routing\Loader\DirectoryLoader';

@@ -1,5 +1,5 @@
 Test:
-  resource: './test.yml'
+  resource: %root_dir%/Resources/config/test.yml
   prefix: /elearning
   type: yaml
 

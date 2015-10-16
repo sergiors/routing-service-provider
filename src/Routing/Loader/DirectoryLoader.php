@@ -1,5 +1,5 @@
 <?php
-namespace Inbep\Silex\Loader;
+namespace Inbep\Silex\Routing\Loader;
 
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Routing\RouteCollection;

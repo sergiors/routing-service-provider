@@ -13,6 +13,11 @@ class RoutingServiceProviderTest extends WebTestCase
     public function register()
     {
         $app = $this->createApplication();
+        $app->register(new ConfigServiceProvider(), [
+            'config.replacements' => [
+                'root_dir' => __DIR__
+            ]
+        ]);
         $app->register(new RoutingServiceProvider(), [
             'router' => [
                 'resource' => __DIR__.'/Resources/config/routing.yml'
