@@ -1,5 +1,7 @@
 Routing Service Provider
 ------------------------
+[![Build Status](https://travis-ci.org/inbep/routing-service-provider.svg?branch=master)](https://travis-ci.org/inbep/routing-service-provider)
+
 Import your routes from yaml, php files or directory.
 
 Install
