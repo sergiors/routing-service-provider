@@ -1,5 +1,5 @@
-RoutingServiceProvider
-----------------------
+Routing Service Provider
+------------------------
 Import your routes from yaml, php files or directory.
 
 Install

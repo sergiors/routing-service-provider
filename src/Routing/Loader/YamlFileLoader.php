@@ -2,16 +2,24 @@
 namespace Inbep\Silex\Routing\Loader;
 
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Routing\Loader\YamlFileLoader as BaseYamlFileLoader;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
-class YamlFileLoader extends BaseYamlFileLoader
+class YamlFileLoader extends BaseYamlFileLoader implements FileLoaderInterface
 {
+    protected $container;
+
     private $yamlParser;
 
-    use FileLoaderTrait;
+    public function __construct(\Pimple $container, FileLocatorInterface $locator)
+    {
+        $this->container = $container;
+
+        parent::__construct($locator);
+    }
 
     public function load($file, $type = null)
     {
