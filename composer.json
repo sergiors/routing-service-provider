@@ -1,5 +1,5 @@
 {
-  "name": "inbep/routing-service-provider",
+  "name": "sergiors/routing-service-provider",
   "description": "Import your routes from YAML, PHP files or Directory.",
   "license": "MIT",
   "authors": [
@@ -10,7 +10,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Inbep\\Silex\\": "src"
+      "Sergiors\\Silex\\": "src"
     }
   },
   "require": {
@@ -20,17 +20,17 @@
   },
   "require-dev": {
     "symfony/yaml": "~2.7",
-    "inbep/config-service-provider": "~1.1",
     "phpunit/phpunit": "~4.8",
     "pdepend/pdepend": "~2.0",
     "phing/phing": "~2.10",
     "phploc/phploc": "~2.1",
     "phpmd/phpmd": "~2.2",
     "sebastian/phpcpd": "~2.0",
-    "squizlabs/php_codesniffer": "~2.1"
+    "squizlabs/php_codesniffer": "~2.1",
+    "sergiors/config-service-provider": "~1.1"
   },
   "suggest": {
     "symfony/yaml": "For using the YAML loader",
-    "inbep/config-service-provider": "For using placeholder in YAML files"
+    "sergiors/config-service-provider": "For using placeholder in YAML files"
   }
 }

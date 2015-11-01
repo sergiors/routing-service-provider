@@ -1,13 +1,13 @@
 Routing Service Provider
 ------------------------
-[![Build Status](https://travis-ci.org/inbep/routing-service-provider.svg?branch=master)](https://travis-ci.org/inbep/routing-service-provider)
+[![Build Status](https://travis-ci.org/sergiors/routing-service-provider.svg?branch=master)](https://travis-ci.org/inbep/routing-service-provider)
 
 Import your routes from yaml, php files or directory.
 
 Install
 -------
 ```
-composer require inbep/routing-service-provider
+composer require sergiors/routing-service-provider
 ```
 
 How to user
@@ -22,6 +22,8 @@ index_controller:
 
 In your php file
 ```php
+use Sergiors\Silex\RoutingServiceProvider;
+
 $app->register(new RoutingServiceProvider(), [
     'router' => [
         'resource' => __DIR__.'/routing.yml'
@@ -29,7 +31,7 @@ $app->register(new RoutingServiceProvider(), [
 ]);
 ```
 
-To user `%root_dir%` in your yaml files, you need to install `inbep/config-service-provider`.
+To user `%root_dir%` in your yaml files, you need to install `sergiors/config-service-provider`.
 
 License
 -------

@@ -1,5 +1,5 @@
 <?php
-namespace Inbep\Silex\Provider;
+namespace Sergiors\Silex\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -9,8 +9,8 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
-use Inbep\Silex\Routing\Loader\YamlFileLoader;
-use Inbep\Silex\Routing\Loader\DirectoryLoader;
+use Sergiors\Silex\Routing\Loader\YamlFileLoader;
+use Sergiors\Silex\Routing\Loader\DirectoryLoader;
 
 /**
  * @author Sérgio Rafael Siqueira <sergio@inbep.com.br>
