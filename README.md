@@ -7,7 +7,7 @@ Import your routes from yaml, php files or directory.
 Install
 -------
 ```
-composer require sergiors/routing-service-provider
+composer require sergiors/routing-service-provider "dev-master"
 ```
 
 How to user

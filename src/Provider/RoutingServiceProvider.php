@@ -9,8 +9,8 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
+use Symfony\Component\Routing\Loader\DirectoryLoader;
 use Sergiors\Silex\Routing\Loader\YamlFileLoader;
-use Sergiors\Silex\Routing\Loader\DirectoryLoader;
 
 /**
  * @author Sérgio Rafael Siqueira <sergio@inbep.com.br>
