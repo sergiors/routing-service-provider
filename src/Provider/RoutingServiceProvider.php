@@ -23,26 +23,25 @@ class RoutingServiceProvider implements ServiceProviderInterface
             'resource' => []
         ];
 
-        $app['routing.loader.xml'] = $app->share(function () {
-            return new XmlFileLoader(new FileLocator());
+        $app['routing.locator'] = $app->share(function () {
+            return new FileLocator();
         });
 
-        $app['routing.loader.php'] = $app->share(function () {
-            return new PhpFileLoader(new FileLocator());
+        $app['routing.loader.xml'] = $app->share(function (Application $app) {
+            return new XmlFileLoader($app['routing.locator']);
+        });
+
+        $app['routing.loader.php'] = $app->share(function (Application $app) {
+            return new PhpFileLoader($app['routing.locator']);
         });
 
         $app['routing.loader.yml'] = $app->share(function (Application $app) {
-            return new YamlFileLoader($app, new FileLocator());
+            return new YamlFileLoader($app, $app['routing.locator']);
         });
 
-        $app['routing.loader.directory.class'] = 'Symfony\Component\Routing\Loader\DirectoryLoader';
 
         $app['routing.loader.directory'] = $app->share(function (Application $app) {
-            if (!class_exists($app['routing.loader.directory.class'])) {
-                return new DirectoryLoader(new FileLocator());
-            }
-
-            return new $app['routing.loader.directory.class'](new FileLocator());
+            return new DirectoryLoader($app['routing.locator']);
         });
 
         $app['routing.resolver'] = $app->share(function (Application $app) {
