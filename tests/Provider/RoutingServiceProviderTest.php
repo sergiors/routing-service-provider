@@ -18,8 +18,8 @@ class RoutingServiceProviderTest extends WebTestCase
             ]
         ]);
         $app->register(new RoutingServiceProvider(), [
-            'router' => [
-                'resource' => __DIR__.'/Resources/config/routing.yml'
+            'routing.options' => [
+                'paths' => __DIR__.'/Resources/config/routing.yml'
             ]
         ]);
 
