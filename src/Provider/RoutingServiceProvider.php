@@ -1,4 +1,5 @@
 <?php
+
 namespace Sergiors\Silex\Provider;
 
 use Silex\Application;
@@ -35,7 +36,6 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new YamlFileLoader($app, $app['routing.locator']);
         });
 
-
         $app['routing.loader.directory'] = $app->share(function (Application $app) {
             return new DirectoryLoader($app['routing.locator']);
         });
@@ -44,7 +44,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
             $loaders = [
                 $app['routing.loader.xml'],
                 $app['routing.loader.php'],
-                $app['routing.loader.directory']
+                $app['routing.loader.directory'],
             ];
 
             if (class_exists('Symfony\Component\Yaml\Yaml')) {
@@ -65,12 +65,13 @@ class RoutingServiceProvider implements ServiceProviderInterface
                     $collection = $app['routing.loader']->load($resource);
                     $routes->addCollection($collection);
                 }
+
                 return $routes;
             })
         );
 
         $app['routing.options'] = [
-            'paths' => []
+            'paths' => [],
         ];
     }
 

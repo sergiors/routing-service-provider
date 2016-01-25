@@ -1,8 +1,11 @@
 <?php
-namespace Sergiors\Silex\Provider;
+
+namespace Sergiors\Silex\Tests\Provider;
 
 use Silex\Application;
 use Silex\WebTestCase;
+use Sergiors\Silex\Provider\ConfigServiceProvider;
+use Sergiors\Silex\Provider\RoutingServiceProvider;
 
 class RoutingServiceProviderTest extends WebTestCase
 {
@@ -14,13 +17,13 @@ class RoutingServiceProviderTest extends WebTestCase
         $app = $this->createApplication();
         $app->register(new ConfigServiceProvider(), [
             'config.replacements' => [
-                'root_dir' => __DIR__
-            ]
+                'root_dir' => __DIR__,
+            ],
         ]);
         $app->register(new RoutingServiceProvider(), [
             'routing.options' => [
-                'paths' => __DIR__.'/Resources/config/routing.yml'
-            ]
+                'paths' => __DIR__.'/Resources/config/routing.yml',
+            ],
         ]);
 
         $this->assertEquals(3, $app['routes']->count());
@@ -31,6 +34,7 @@ class RoutingServiceProviderTest extends WebTestCase
         $app = new Application();
         $app['debug'] = true;
         $app['exception_handler']->disable();
+
         return $app;
     }
 }

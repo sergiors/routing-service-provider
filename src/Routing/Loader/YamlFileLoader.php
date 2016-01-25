@@ -1,4 +1,5 @@
 <?php
+
 namespace Sergiors\Silex\Routing\Loader;
 
 use Symfony\Component\Routing\RouteCollection;
@@ -69,6 +70,7 @@ class YamlFileLoader extends BaseYamlFileLoader implements FileLoaderInterface
                 $this->parseRoute($collection, $name, $config, $path);
             }
         }
+
         return $collection;
     }
 }
