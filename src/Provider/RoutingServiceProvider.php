@@ -45,11 +45,8 @@ class RoutingServiceProvider implements ServiceProviderInterface
                 $app['routing.loader.xml'],
                 $app['routing.loader.php'],
                 $app['routing.loader.directory'],
+                $app['routing.loader.yml']
             ];
-
-            if (class_exists('Symfony\Component\Yaml\Yaml')) {
-                $loaders[] = $app['routing.loader.yml'];
-            }
 
             return new LoaderResolver($loaders);
         });
