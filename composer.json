@@ -14,7 +14,7 @@
         "symfony/routing": "~2.8|~3.0"
     },
     "require-dev": {
-        "symfony/yaml": "~2.8",
+        "symfony/yaml": "~2.8|~3.0",
         "phpunit/phpunit": "~4.8",
         "pdepend/pdepend": "~2.0",
         "phing/phing": "~2.10",
