@@ -2,6 +2,7 @@
 
 namespace Sergiors\Silex\Routing\Loader;
 
+use Pimple\Container;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -15,7 +16,7 @@ class YamlFileLoader extends BaseYamlFileLoader implements FileLoaderInterface
 
     private $yamlParser;
 
-    public function __construct(\Pimple $container, FileLocatorInterface $locator)
+    public function __construct(Container $container, FileLocatorInterface $locator)
     {
         $this->container = $container;
 

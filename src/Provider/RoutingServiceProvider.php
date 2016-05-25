@@ -2,8 +2,8 @@
 
 namespace Sergiors\Silex\Provider;
 
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -18,29 +18,29 @@ use Sergiors\Silex\Routing\Loader\YamlFileLoader;
  */
 class RoutingServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['routing.locator'] = $app->share(function () {
+        $app['routing.locator'] = function () {
             return new FileLocator();
-        });
+        };
 
-        $app['routing.loader.xml'] = $app->share(function (Application $app) {
+        $app['routing.loader.xml'] = function () use ($app) {
             return new XmlFileLoader($app['routing.locator']);
-        });
+        };
 
-        $app['routing.loader.php'] = $app->share(function (Application $app) {
+        $app['routing.loader.php'] = function () use ($app) {
             return new PhpFileLoader($app['routing.locator']);
-        });
+        };
 
-        $app['routing.loader.yml'] = $app->share(function (Application $app) {
+        $app['routing.loader.yml'] = function () use ($app) {
             return new YamlFileLoader($app, $app['routing.locator']);
-        });
+        };
 
-        $app['routing.loader.directory'] = $app->share(function (Application $app) {
+        $app['routing.loader.directory'] = function () use ($app) {
             return new DirectoryLoader($app['routing.locator']);
-        });
+        };
 
-        $app['routing.resolver'] = $app->share(function (Application $app) {
+        $app['routing.resolver'] = function () use ($app) {
             $loaders = [
                 $app['routing.loader.xml'],
                 $app['routing.loader.php'],
@@ -49,30 +49,25 @@ class RoutingServiceProvider implements ServiceProviderInterface
             ];
 
             return new LoaderResolver($loaders);
-        });
+        };
 
-        $app['routing.loader'] = $app->share(function (Application $app) {
+        $app['routing.loader'] =function () use ($app) {
             return new DelegatingLoader($app['routing.resolver']);
-        });
+        };
 
-        $app['routes'] = $app->share(
-            $app->extend('routes', function (RouteCollection $routes) use ($app) {
-                $resources = (array) $app['routing.options']['paths'];
-                foreach ($resources as $resource) {
-                    $collection = $app['routing.loader']->load($resource);
-                    $routes->addCollection($collection);
-                }
+        $app['routes'] = $app->extend('routes', function (RouteCollection $routes) use ($app) {
+            $paths = (array) $app['routing.options']['paths'];
+
+            return array_reduce($paths, function ($routes, $resource) use ($app) {
+                $collection = $app['routing.loader']->load($resource);
+                $routes->addCollection($collection);
 
                 return $routes;
-            })
-        );
+            }, $routes);
+        });
 
         $app['routing.options'] = [
             'paths' => [],
         ];
-    }
-
-    public function boot(Application $app)
-    {
     }
 }
