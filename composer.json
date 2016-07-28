@@ -22,7 +22,7 @@
         "phpmd/phpmd": "~2.2",
         "sebastian/phpcpd": "~2.0",
         "squizlabs/php_codesniffer": "~2.1",
-        "sergiors/config-service-provider": "^2"
+        "sergiors/config-service-provider": "dev-master"
     },
     "suggest": {
         "symfony/yaml": "For using the YAML loader",
