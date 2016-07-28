@@ -15,11 +15,10 @@
          beStrictAboutTestSize="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"
-         checkForUnintentionallyCoveredCode="true"
          bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="unit">
-            <directory>./tests</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 

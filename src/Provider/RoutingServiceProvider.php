@@ -24,23 +24,23 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new FileLocator();
         };
 
-        $app['routing.loader.xml'] = function () use ($app) {
+        $app['routing.loader.xml'] = $app->factory(function (Container $app) {
             return new XmlFileLoader($app['routing.locator']);
-        };
+        });
 
-        $app['routing.loader.php'] = function () use ($app) {
+        $app['routing.loader.php'] = $app->factory(function (Container $app) {
             return new PhpFileLoader($app['routing.locator']);
-        };
+        });
 
-        $app['routing.loader.yml'] = function () use ($app) {
+        $app['routing.loader.yml'] = $app->factory(function (Container $app) {
             return new YamlFileLoader($app, $app['routing.locator']);
-        };
+        });
 
-        $app['routing.loader.directory'] = function () use ($app) {
+        $app['routing.loader.directory'] = $app->factory(function (Container $app) {
             return new DirectoryLoader($app['routing.locator']);
-        };
+        });
 
-        $app['routing.resolver'] = function () use ($app) {
+        $app['routing.loader.resolver'] = function (Container $app) {
             $loaders = [
                 $app['routing.loader.xml'],
                 $app['routing.loader.php'],
@@ -51,14 +51,14 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new LoaderResolver($loaders);
         };
 
-        $app['routing.loader'] =function () use ($app) {
-            return new DelegatingLoader($app['routing.resolver']);
+        $app['routing.loader'] = function (Container $app) {
+            return new DelegatingLoader($app['routing.loader.resolver']);
         };
 
         $app['routes'] = $app->extend('routes', function (RouteCollection $routes) use ($app) {
-            $paths = (array) $app['routing.options']['paths'];
+            $filenames = (array) $app['routing.filenames'];
 
-            return array_reduce($paths, function ($routes, $resource) use ($app) {
+            return array_reduce($filenames, function ($routes, $resource) use ($app) {
                 $collection = $app['routing.loader']->load($resource);
                 $routes->addCollection($collection);
 
@@ -66,8 +66,6 @@ class RoutingServiceProvider implements ServiceProviderInterface
             }, $routes);
         });
 
-        $app['routing.options'] = [
-            'paths' => [],
-        ];
+        $app['routing.filenames'] = [];
     }
 }
