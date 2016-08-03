@@ -56,10 +56,14 @@ class RoutingServiceProvider implements ServiceProviderInterface
         };
 
         $app['routes'] = $app->extend('routes', function (RouteCollection $routes, Container $app) {
-            $collection = $app['routing.loader']->load($app['routing.filename']);
-            $routes->addCollection($collection);
+            if (file_exists($filename = $app['routing.filename'])) {
+                $collection = $app['routing.loader']->load($filename);
+                $routes->addCollection($collection);
 
-            return $routes;
+                return $routes;
+            }
+
+            throw new \LogicException('You must define \'routing.filename\' parameter to use the RoutingServiceProvider.');
         });
 
         $app['routing.filename'] = null;
