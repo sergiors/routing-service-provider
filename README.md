@@ -29,7 +29,7 @@ $app->register(new RoutingServiceProvider(), [
 ]);
 ```
 
-To user `%root_dir%` in your yaml files, you need to install `sergiors/config-service-provider`.
+To use `%root_dir%` in your yaml files, you need to install `sergiors/config-service-provider`.
 
 License
 -------
