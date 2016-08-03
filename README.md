@@ -25,7 +25,7 @@ In your php file
 use Sergiors\Silex\RoutingServiceProvider;
 
 $app->register(new RoutingServiceProvider(), [
-    'routing.filenames' => __DIR__.'/routing.yml' // or an array
+    'routing.filename' => __DIR__.'/routing.yml'
 ]);
 ```
 

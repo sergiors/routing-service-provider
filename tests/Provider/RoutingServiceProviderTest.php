@@ -21,9 +21,7 @@ class RoutingServiceProviderTest extends WebTestCase
             ],
         ]);
         $app->register(new RoutingServiceProvider(), [
-            'routing.filenames' => [
-                'paths' => __DIR__.'/Resources/config/routing.yml',
-            ],
+            'routing.filename' => __DIR__.'/Resources/config/routing.yml'
         ]);
 
         $this->assertEquals(3, $app['routes']->count());

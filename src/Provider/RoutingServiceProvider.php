@@ -55,17 +55,13 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new DelegatingLoader($app['routing.loader.resolver']);
         };
 
-        $app['routes'] = $app->extend('routes', function (RouteCollection $routes) use ($app) {
-            $filenames = (array) $app['routing.filenames'];
+        $app['routes'] = $app->extend('routes', function (RouteCollection $routes, Container $app) {
+            $collection = $app['routing.loader']->load($app['routing.filename']);
+            $routes->addCollection($collection);
 
-            return array_reduce($filenames, function ($routes, $resource) use ($app) {
-                $collection = $app['routing.loader']->load($resource);
-                $routes->addCollection($collection);
-
-                return $routes;
-            }, $routes);
+            return $routes;
         });
 
-        $app['routing.filenames'] = [];
+        $app['routing.filename'] = null;
     }
 }
