@@ -4,6 +4,7 @@ namespace Sergiors\Silex\Tests\Provider;
 
 use Silex\Application;
 use Silex\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Sergiors\Silex\Provider\ConfigServiceProvider;
 use Sergiors\Silex\Provider\RoutingServiceProvider;
 
@@ -21,10 +22,18 @@ class RoutingServiceProviderTest extends WebTestCase
             ],
         ]);
         $app->register(new RoutingServiceProvider(), [
-            'routing.filename' => __DIR__.'/Resources/config/routing.yml'
+            'routing.cache_dir' => sys_get_temp_dir(),
+            'routing.resource' => __DIR__.'/Resources/config/routing.yml'
         ]);
 
-        $this->assertEquals(3, $app['routes']->count());
+        $app->match('/hello')->bind('hello');
+
+        $request = Request::create('/');
+        $app->handle($request);
+
+        $this->assertEquals('/hello', $app['url_generator']->generate('hello'));
+        $this->assertEquals('/fake', $app['url_generator']->generate('fake'));
+        $this->assertEquals('/test_import/import', $app['url_generator']->generate('test_import'));
     }
 
     public function createApplication()

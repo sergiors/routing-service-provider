@@ -1,5 +1,3 @@
-index:
-  path: /
-
-test:
-  path: /test
+test_import:
+    path: /import
+    methods: [GET]

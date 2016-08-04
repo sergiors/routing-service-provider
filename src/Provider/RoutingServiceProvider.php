@@ -7,10 +7,12 @@ use Pimple\ServiceProviderInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
 use Symfony\Component\Routing\Loader\DirectoryLoader;
+use Sergiors\Silex\Routing\ChainUrlMatcher;
+use Sergiors\Silex\Routing\ChainUrlGenerator;
 use Sergiors\Silex\Routing\Loader\YamlFileLoader;
 
 /**
@@ -20,6 +22,8 @@ class RoutingServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
+        $app['request_matcher_class'] = 'Silex\\Provider\\Routing\\RedirectableUrlMatcher';
+
         $app['routing.locator'] = function () {
             return new FileLocator();
         };
@@ -44,9 +48,12 @@ class RoutingServiceProvider implements ServiceProviderInterface
             $loaders = [
                 $app['routing.loader.xml'],
                 $app['routing.loader.php'],
-                $app['routing.loader.directory'],
-                $app['routing.loader.yml']
+                $app['routing.loader.directory']
             ];
+
+            if (class_exists('Symfony\\Component\\Yaml\\Yaml')) {
+                $loaders[] = $app['routing.loader.yml'];
+            }
 
             return new LoaderResolver($loaders);
         };
@@ -55,17 +62,34 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new DelegatingLoader($app['routing.loader.resolver']);
         };
 
-        $app['routes'] = $app->extend('routes', function (RouteCollection $routes, Container $app) {
-            if (file_exists($filename = $app['routing.filename'])) {
-                $collection = $app['routing.loader']->load($filename);
-                $routes->addCollection($collection);
+        $app['router'] = function (Container $app) {
+            $options = [
+                'debug' => $app['debug'],
+                'cache_dir' => $app['routing.cache_dir'],
+                'matcher_base_class' => $app['request_matcher_class'],
+                'matcher_class' => $app['request_matcher_class']
+            ];
 
-                return $routes;
-            }
+            return new Router(
+                $app['routing.loader'],
+                $app['routing.resource'],
+                $options,
+                $app['request_context'],
+                $app['logger']
+            );
+        };
 
-            throw new \LogicException('You must define \'routing.filename\' parameter to use the RoutingServiceProvider.');
+        $app['request_matcher'] = $app->extend('request_matcher', function ($matcher, $app) {
+            $matchers = [$app['router'], $matcher];
+            return new ChainUrlMatcher($matchers, $app['request_context']);
         });
 
-        $app['routing.filename'] = null;
+        $app['url_generator'] = $app->extend('url_generator', function ($generator, $app) {
+            $generators = [$app['router'], $generator];
+            return new ChainUrlGenerator($generators, $app['request_context']);
+        });
+
+        $app['routing.resource'] = null;
+        $app['routing.cache_dir'] = null;
     }
 }

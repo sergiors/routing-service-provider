@@ -1,10 +1,8 @@
-Test:
+fake:
+     path: /fake
+     methods: [GET]
+
+test_import:
   resource: %root_dir%/Resources/config/test.yml
-  prefix: /elearning
+  prefix: /test_import
   type: yaml
-
-Test2:
-  resource: './test2.yml'
-  prefix: /
-  type: yaml
-
