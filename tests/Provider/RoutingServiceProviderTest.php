@@ -38,9 +38,6 @@ class RoutingServiceProviderTest extends WebTestCase
 
     public function createApplication()
     {
-        $app = new Application();
-        $app['debug'] = true;
-
-        return $app;
+        return new Application();
     }
 }

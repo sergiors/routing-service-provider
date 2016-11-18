@@ -10,12 +10,22 @@ use Symfony\Component\Routing\Loader\YamlFileLoader as BaseYamlFileLoader;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
-class YamlFileLoader extends BaseYamlFileLoader implements FileLoaderInterface
+class YamlFileLoader extends BaseYamlFileLoader
 {
+    /**
+     * @var Container
+     */
     protected $container;
 
+    /**
+     * @var YamlParser
+     */
     private $yamlParser;
 
+    /**
+     * @param Container            $container
+     * @param FileLocatorInterface $locator
+     */
     public function __construct(Container $container, FileLocatorInterface $locator)
     {
         $this->container = $container;
@@ -23,6 +33,9 @@ class YamlFileLoader extends BaseYamlFileLoader implements FileLoaderInterface
         parent::__construct($locator);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function load($file, $type = null)
     {
         $path = $this->locator->locate($file);
