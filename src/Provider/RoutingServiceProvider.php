@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
 use Symfony\Component\Routing\Loader\DirectoryLoader;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Sergiors\Silex\Routing\ChainUrlMatcher;
 use Sergiors\Silex\Routing\ChainUrlGenerator;
 use Sergiors\Silex\Routing\Loader\YamlFileLoader;
@@ -37,7 +38,11 @@ class RoutingServiceProvider implements ServiceProviderInterface
         });
 
         $app['routing.loader.yml'] = $app->factory(function (Container $app) {
-            return new YamlFileLoader($app, $app['routing.locator']);
+            if (class_exists('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag')) {
+                return new YamlFileLoader($app['routing.locator'], new ParameterBag($app['routing.replacements']));
+            }
+
+            return new YamlFileLoader($app['routing.locator']);
         });
 
         $app['routing.loader.directory'] = $app->factory(function (Container $app) {
@@ -91,5 +96,6 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
         $app['routing.resource'] = null;
         $app['routing.cache_dir'] = null;
+        $app['routing.replacements'] = [];
     }
 }

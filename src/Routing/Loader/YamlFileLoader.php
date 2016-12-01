@@ -2,35 +2,35 @@
 
 namespace Sergiors\Silex\Routing\Loader;
 
-use Pimple\Container;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Routing\Loader\YamlFileLoader as BaseYamlFileLoader;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class YamlFileLoader extends BaseYamlFileLoader
 {
-    /**
-     * @var Container
-     */
-    protected $container;
-
     /**
      * @var YamlParser
      */
     private $yamlParser;
 
     /**
-     * @param Container            $container
-     * @param FileLocatorInterface $locator
+     * @var ParameterBagInterface
      */
-    public function __construct(Container $container, FileLocatorInterface $locator)
-    {
-        $this->container = $container;
+    private $parameterBag;
 
+    /**
+     * @param FileLocatorInterface       $locator
+     * @param ParameterBagInterface|null $parameterBag
+     */
+    public function __construct(FileLocatorInterface $locator, ParameterBagInterface $parameterBag = null)
+    {
         parent::__construct($locator);
+
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -64,8 +64,8 @@ class YamlFileLoader extends BaseYamlFileLoader
             throw new \InvalidArgumentException(sprintf('The file "%s" does not contain valid YAML.', $path), 0, $e);
         }
 
-        if (isset($this->container['config.replacements.resolver'])) {
-            $parsedConfig = $this->container['config.replacements.resolver']($parsedConfig);
+        if ($this->parameterBag) {
+            $parsedConfig = $this->parameterBag->resolveValue($parsedConfig);
         }
 
         $collection = new RouteCollection();

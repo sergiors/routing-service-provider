@@ -5,7 +5,6 @@ namespace Sergiors\Silex\Tests\Provider;
 use Silex\Application;
 use Silex\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Sergiors\Silex\Provider\ConfigServiceProvider;
 use Sergiors\Silex\Provider\RoutingServiceProvider;
 
 class RoutingServiceProviderTest extends WebTestCase
@@ -16,14 +15,10 @@ class RoutingServiceProviderTest extends WebTestCase
     public function register()
     {
         $app = $this->createApplication();
-        $app->register(new ConfigServiceProvider(), [
-            'config.replacements' => [
-                'root_dir' => __DIR__,
-            ],
-        ]);
         $app->register(new RoutingServiceProvider(), [
             'routing.cache_dir' => sys_get_temp_dir(),
-            'routing.resource' => __DIR__.'/Resources/config/routing.yml'
+            'routing.resource' => __DIR__.'/Resources/config/routing.yml',
+            'routing.replacements' => ['root_dir' => __DIR__],
         ]);
 
         $app->match('/hello')->bind('hello');

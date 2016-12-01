@@ -14,19 +14,19 @@
         "symfony/routing": "^2.8|^3.0"
     },
     "require-dev": {
-        "symfony/yaml": "~2.8|~3.0",
+        "symfony/yaml": "^2.8|^3.0",
+        "symfony/dependency-injection": "^2.8|^3.0",
         "phpunit/phpunit": "~4.8",
         "pdepend/pdepend": "~2.0",
         "phing/phing": "~2.10",
         "phploc/phploc": "~2.1",
         "phpmd/phpmd": "~2.2",
         "sebastian/phpcpd": "~2.0",
-        "squizlabs/php_codesniffer": "~2.1",
-        "sergiors/config-service-provider": "dev-master"
+        "squizlabs/php_codesniffer": "~2.1"
     },
     "suggest": {
         "symfony/yaml": "For using the YAML loader",
-        "sergiors/config-service-provider": "For using placeholder in YAML files"
+        "symfony/dependency-injection": ""
     },
     "autoload": {
         "psr-4": {
