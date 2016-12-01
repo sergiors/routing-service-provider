@@ -28,8 +28,9 @@ $app->register(new RoutingServiceProvider(), [
     'routing.resource' => __DIR__.'/routing.yml'
 ]);
 ```
+Remeber, you need install `symfony/yaml` to use YAML.
 
-To use `%root_dir%` in your yaml files, you need to install `sergiors/config-service-provider`.
+To use `%root_dir%` in your yaml files, you need to install `symfony/dependency-injection` and set `$app['routing.replacements'] = ['root_dir' => '']`
 
 License
 -------
