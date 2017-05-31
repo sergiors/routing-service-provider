@@ -8,13 +8,13 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Routing\Router;
-use Symfony\Component\Routing\Loader\XmlFileLoader;
 use Symfony\Component\Routing\Loader\PhpFileLoader;
 use Symfony\Component\Routing\Loader\DirectoryLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Sergiors\Silex\Routing\ChainUrlMatcher;
 use Sergiors\Silex\Routing\ChainUrlGenerator;
 use Sergiors\Silex\Routing\Loader\YamlFileLoader;
+use Sergiors\Silex\Routing\Loader\XmlFileLoader;
 
 /**
  * @author Sérgio Rafael Siqueira <sergio@inbep.com.br>
@@ -30,6 +30,10 @@ class RoutingServiceProvider implements ServiceProviderInterface
         };
 
         $app['routing.loader.xml'] = $app->factory(function (Container $app) {
+            if (class_exists('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag')) {
+                return new XmlFileLoader($app['routing.locator'], new ParameterBag($app['routing.replacements']));
+            }
+            
             return new XmlFileLoader($app['routing.locator']);
         });
 
