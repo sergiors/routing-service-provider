@@ -25,15 +25,7 @@ class XmlFileLoader extends BaseXmlFileLoader
     }
 
     /**
-     * Loads an XML file.
-     *
-     * @param string      $file An XML file path
-     * @param string|null $type The resource type
-     *
-     * @return RouteCollection A RouteCollection instance
-     *
-     * @throws \InvalidArgumentException When the file cannot be loaded or when the XML cannot be
-     *                                   parsed because it does not validate against the scheme.
+     * {@inheritdoc}
      */
     public function load($file, $type = null)
     {
