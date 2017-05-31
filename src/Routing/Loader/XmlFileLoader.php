@@ -3,6 +3,10 @@
 namespace Sergiors\Silex\Routing\Loader;
 
 use Symfony\Component\Config\FileLocatorInterface;
+
+use Symfony\Component\Config\Loader\FileLoader;
+use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Loader\XmlFileLoader as BaseXmlFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -25,7 +29,15 @@ class XmlFileLoader extends BaseXmlFileLoader
     }
 
     /**
-     * {@inheritdoc}
+     * Loads an XML file.
+     *
+     * @param string      $file An XML file path
+     * @param string|null $type The resource type
+     *
+     * @return RouteCollection A RouteCollection instance
+     *
+     * @throws \InvalidArgumentException When the file cannot be loaded or when the XML cannot be
+     *                                   parsed because it does not validate against the scheme.
      */
     public function load($file, $type = null)
     {
@@ -42,7 +54,9 @@ class XmlFileLoader extends BaseXmlFileLoader
                 continue;
             }
 
-            if ($resource = $node->getAttribute('resource')) {
+            if ($this->parameterBag
+                && $resource = $node->getAttribute('resource')
+            ) {
                 $node->setAttribute('resource', $this->parameterBag->resolveValue($resource));
             }
 
